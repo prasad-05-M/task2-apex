@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Recharge Subscription Service</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f8fc;
+      color: #333;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h1 {
+      background-color: #005bbb;
+      color: white;
+      padding: 20px;
+      text-align: center;
+      margin: 0 -20px 20px;
+    }
+
+    h2 {
+      color: #005bbb;
+      margin-top: 30px;
+    }
+
+    p, ul {
+      max-width: 800px;
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    a {
+      color: #0077cc;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    img {
+      margin-top: 15px;
+      max-width: 20%;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+
+    .alert-button, .pay-button {
+      background-color: #0077cc;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 15px;
+    }
+
+    .alert-button:hover, .pay-button:hover {
+      background-color: #005bbb;
+    }
+
+    .form-section {
+      background-color: #ffffff;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      padding: 20px;
+      max-width: 600px;
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+
+    select, input {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+  </style>
+
+  <script>
+    function showRechargeAlert() {
+      alert("Thank you for choosing QuickRecharge! Your service will be processed shortly.");
+    }
+
+    function handlePayment() {
+      const service = document.getElementById("service").value;
+      const userId = document.getElementById("userId").value;
+      const plan = document.getElementById("plan").value;
+
+      if (userId.trim() === "") {
+        alert("Please enter your number or ID.");
+        return;
+      }
+
+      alert(`Processing your ${service} recharge for ID: ${userId} with the ${plan} plan.`);
+    }
+  </script>
+</head>
+<body>
+
+  <h1>Welcome to QuickRecharge</h1>
+
+  <h2>Fast & Easy Subscription Recharge</h2>
+  <p>
+    QuickRecharge is your one-stop solution for recharging mobile, DTH, and internet subscriptions. 
+    Enjoy secure payments and instant activation with just a few clicks!
+  </p>
+
+  <h2>Our Services</h2>
+  <ul>
+    <li>Mobile Recharge (Prepaid & Postpaid)</li>
+    <li>DTH Subscription Renewal</li>
+    <li>Broadband & Wi-Fi Bill Payments</li>
+  </ul>
+
+  <h2>Recharge Now</h2>
+  <div class="form-section">
+    <label for="service">Select Your Service:</label>
+    <select id="service">
+      <option value="Mobile">Mobile Recharge</option>
+      <option value="DTH">DTH Subscription</option>
+      <option value="Internet">Internet/Broadband</option>
+    </select>
+
+    <label for="userId">Enter Your Number or ID:</label>
+    <input type="text" id="userId" placeholder="e.g. 9876543210 or UserID123">
+
+    <label for="plan">Choose a Plan:</label>
+    <select id="plan">
+      <option value="Basic">Basic Plan - ₹199</option>
+      <option value="Standard">Standard Plan - ₹299</option>
+      <option value="Premium">Premium Plan - ₹499</option>
+    </select>
+
+    <button class="pay-button" onclick="handlePayment()">Proceed to Pay</button>
+  </div>
+
+  <h2>Screenshot Preview</h2>
+  <img src="C:\Users\mlvdp\OneDrive\Desktop\preview.png" alt="Recharge Service Preview">
+
+  <h2>Contact Us</h2>
+  <p>
+    Need help? Email us at <a href="mailto:support@quickrecharge.com">support@quickrecharge.com</a>
+  </p>
+
+</body>
+</html>
