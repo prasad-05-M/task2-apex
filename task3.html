@@ -1,0 +1,147 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>All-in-One Web Project</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+
+    .container {
+      width: 90%;
+      max-width: 1000px;
+      margin: auto;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    .section {
+      margin: 40px 0;
+      padding: 20px;
+      border: 2px solid #ccc;
+      border-radius: 10px;
+    }
+
+    /* Default styles (mobile first) */
+    .box, .quiz, .carousel, .api {
+      font-size: 14px;
+    }
+
+    img {
+      width: 200%;
+      max-width: 300px;
+      display: block;
+      margin: 10px auto;
+    }
+
+    button {
+      padding: 10px 20px;
+      margin: 10px 5px;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    /* Tablet styles */
+    @media (min-width: 600px) {
+      .box, .quiz, .carousel, .api {
+        font-size: 16px;
+      }
+
+      button {
+        font-size: 16px;
+      }
+    }
+
+    /* Desktop styles */
+    @media (min-width: 1024px) {
+      .box, .quiz, .carousel, .api {
+        font-size: 18px;
+      }
+
+      button {
+        font-size: 18px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>All-in-One Web Demo</h1>
+
+    <!-- Responsive Box Section -->
+    <div class="section box">
+      <h2>🧩 Responsive Design Using Flexbox and Grid – Explanation</h2>
+      <p>In this version of responsive design, we use modern CSS layout techniques — Flexbox and CSS Grid — instead of relying heavily on media queries.</p>
+    </div>
+
+    <!-- Quiz Section -->
+    <div class="section quiz">
+      <h2>Mini Quiz</h2>
+      <p id="question">What is 2 + 2?</p>
+      <button onclick="checkAnswer(4)">4</button>
+      <button onclick="checkAnswer(5)">5</button>
+      <p id="quiz-result"></p>
+    </div>
+
+    <!-- Image Carousel Section -->
+    <div class="section carousel">
+      <h2>Image Carousel</h2>
+      <img id="carousel" src="https://vistapointe.net/images/carousel-5.jpg" alt="carousel image" />
+      <button onclick="nextImage()">Next</button>
+    </div>
+
+    <!-- API Fetch Section -->
+    <div class="section api">
+      <h2>Random Joke</h2>
+      <button onclick="getJoke()">Get Joke</button>
+      <p id="joke"></p>
+    </div>
+  </div>
+
+  <script>
+    // Quiz Logic
+    function checkAnswer(answer) {
+      const result = document.getElementById("quiz-result");
+      result.textContent = answer === 4 ? "Correct!" : "Try again!";
+    }
+
+    // Carousel Logic
+    const images = [
+      "https://vistapointe.net/images/carousel-5.jpg",
+      "https://blog.walls.io/wp-content/uploads/2022/09/Featured-Image-Carousel-Layout.jpg",
+      "https://miro.medium.com/v2/resize:fit:1200/1*z-jz3fBVGguR56ofkq9XMA.jpeg"
+    ];
+    let index = 0;
+
+    function nextImage() 
+    {
+      index = (index + 1) % images.length;
+      document.getElementById("carousel").src = images[index];
+    }
+
+    // Joke API functionality
+async function getJoke() {
+  const jokeText = document.getElementById("joke");
+  jokeText.textContent = "Loading joke...";
+
+  try {
+    const response = await fetch("https://icanhazdadjoke.com/", {
+      headers: {
+        Accept: "application/json"
+      }
+    });
+    const data = await response.json();
+    jokeText.textContent = data.joke;
+  } catch (error) {
+    jokeText.textContent = "Oops! Could not load a joke.";
+  }
+}
+
+    
+  </script>
+</body>
+</html>
