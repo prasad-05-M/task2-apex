@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Web Development Project Planner</title>
+  <!-- Tailwind CSS CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    .task.completed span {
+      text-decoration: line-through;
+      color: gray;
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-slate-50 to-blue-50 min-h-screen p-6">
+
+  <div class="max-w-6xl mx-auto">
+    <div class="mb-8">
+      <img src="https://powerslides.com/wp-content/uploads/2021/12/Web-Development-Roadmap-1-1024x575.png" alt="Web Project Banner" class="mx-auto rounded-lg shadow-md mb-4 w-full max-h-64 object-cover" />
+      <h1 class="text-3xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent mb-2">
+        Web Development Project Roadmap
+      </h1>
+      <p class="text-slate-600">Track your progress through these three progressive web development projects</p>
+    </div>
+
+    <!-- Project Navigation -->
+    <div id="projectButtons" class="flex flex-wrap gap-4 mb-8"></div>
+
+    <!-- Project Details -->
+    <div id="projectDetails" class="bg-white rounded-lg shadow-lg p-8"></div>
+
+    <!-- Overall Progress -->
+    <div id="overallProgress" class="mt-8 bg-white rounded-lg shadow-lg p-6"></div>
+  </div>
+
+  <script>
+    const projects = [
+      {
+        id: 1,
+        title: "Personal Portfolio Website",
+        icon: "globe",
+        objective: "Showcase skills and projects in a professional, multi-page website",
+        skills: ["HTML/CSS", "Responsive Design", "JavaScript", "Portfolio Design"],
+        tasks: [
+          "Plan site structure and wireframes",
+          "Set up project files and folders",
+          "Create responsive navigation",
+          "Build About section with bio and skills",
+          "Develop Projects section with project cards",
+          "Design Contact section with form",
+          "Implement responsive design across all pages",
+          "Test on different devices and browsers",
+          "Optimize for performance and SEO"
+        ],
+        tips: [
+          "Start with mobile-first design approach",
+          "Use CSS Grid/Flexbox for layouts",
+          "Include live project demos when possible",
+          "Keep design clean and professional"
+        ]
+      },
+      {
+        id: 2,
+        title: "To-Do App with Local Storage",
+        icon: "database",
+        objective: "Implement data persistence with local storage",
+        skills: ["JavaScript", "Local Storage API", "DOM Manipulation", "Event Handling"],
+        tasks: [
+          "Create basic HTML structure for to-do interface",
+          "Style the app with CSS",
+          "Implement add/remove task functionality",
+          "Add task completion toggle",
+          "Integrate localStorage for data persistence",
+          "Handle edge cases (empty tasks, storage limits)",
+          "Add task editing functionality",
+          "Implement task filtering (all, active, completed)",
+          "Polish UI/UX and add animations"
+        ],
+        tips: [
+          "Always stringify data before storing in localStorage",
+          "Handle cases where localStorage might be unavailable",
+          "Consider data validation before saving",
+          "Test thoroughly with browser dev tools"
+        ]
+      },
+      {
+        id: 3,
+        title: "Product Listing with Filtering",
+        icon: "filter",
+        objective: "Create interactive interfaces with filtering and sorting",
+        skills: ["JavaScript Arrays", "Event Handling", "Dynamic DOM", "Data Manipulation"],
+        tasks: [
+          "Create product data structure/mock data",
+          "Build product card components",
+          "Design responsive grid layout",
+          "Implement category filtering",
+          "Add price range filtering",
+          "Create sorting functionality (price, rating, name)",
+          "Add search functionality",
+          "Implement pagination for large datasets",
+          "Optimize performance for large lists"
+        ],
+        tips: [
+          "Use array methods like filter(), sort(), map()",
+          "Consider debouncing for search input",
+          "Cache filtered results for better performance",
+          "Make filters combinable (multiple categories + price range)"
+        ]
+      }
+    ];
+
+    let selectedProject = 0;
+    let completedTasks = JSON.parse(localStorage.getItem('completedTasks')) || {};
+
+    function saveProgress() {
+      localStorage.setItem('completedTasks', JSON.stringify(completedTasks));
+    }
+
+    function getCompletionPercentage(project) {
+      const completedCount = project.tasks.filter((_, i) => completedTasks[`${project.id}-${i}`]).length;
+      return Math.round((completedCount / project.tasks.length) * 100);
+    }
+
+    function renderButtons() {
+      const container = document.getElementById('projectButtons');
+      container.innerHTML = '';
+      projects.forEach((project, i) => {
+        const isActive = i === selectedProject;
+        const button = document.createElement('button');
+        button.className = `flex items-center gap-3 px-6 py-4 rounded-lg transition-all ${
+          isActive ? 'bg-purple-600 text-white shadow-lg scale-105' : 'bg-white text-gray-700 hover:bg-purple-50 shadow hover:shadow-md'
+        }`;
+        button.innerHTML = `
+          <i class="lucide-${project.icon} w-6 h-6"></i>
+          <div>
+            <div class="font-semibold">${project.title}</div>
+            <div class="text-sm opacity-80">${getCompletionPercentage(project)}% Complete</div>
+          </div>
+        `;
+        button.onclick = () => {
+          selectedProject = i;
+          renderAll();
+        };
+        container.appendChild(button);
+      });
+    }
+
+    function renderDetails() {
+      const project = projects[selectedProject];
+      const container = document.getElementById('projectDetails');
+      container.innerHTML = `
+        <div class="flex items-start gap-4 mb-6">
+          <div class="p-3 bg-purple-100 rounded-lg"><i class="lucide-${project.icon} w-6 h-6"></i></div>
+          <div>
+            <h2 class="text-2xl font-bold text-gray-800">${project.title}</h2>
+            <p class="text-slate-600 mt-2">${project.objective}</p>
+          </div>
+        </div>
+
+        <div class="mb-8">
+          <div class="flex justify-between items-center mb-2">
+            <span class="text-sm font-medium text-gray-700">Progress</span>
+            <span class="text-sm font-semibold text-purple-800">${getCompletionPercentage(project)}%</span>
+          </div>
+          <div class="w-full bg-gray-200 rounded-full h-3">
+            <div class="bg-purple-600 h-3 rounded-full transition-all" style="width: ${getCompletionPercentage(project)}%"></div>
+          </div>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-8">
+          <div>
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Tasks Checklist</h3>
+            <div class="space-y-3" id="taskList"></div>
+          </div>
+          <div class="space-y-6">
+            <div>
+              <h3 class="text-xl font-semibold text-gray-800 mb-4">Key Skills</h3>
+              <div class="flex flex-wrap gap-2">
+                ${project.skills.map(skill => `<span class="px-3 py-1 bg-purple-100 text-purple-800 rounded-full text-sm font-medium">${skill}</span>`).join('')}
+              </div>
+            </div>
+            <div>
+              <h3 class="text-xl font-semibold text-gray-800 mb-4">Pro Tips</h3>
+              <div class="space-y-2">
+                ${project.tips.map(tip => `
+                  <div class="flex items-start gap-2">
+                    <div class="w-2 h-2 bg-purple-600 rounded-full mt-2"></div>
+                    <span class="text-sm text-gray-700">${tip}</span>
+                  </div>`).join('')}
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+
+      const taskList = document.getElementById('taskList');
+      project.tasks.forEach((task, i) => {
+        const isDone = completedTasks[`${project.id}-${i}`];
+        const div = document.createElement('div');
+        div.className = `task flex items-start gap-3 p-3 rounded-lg hover:bg-purple-50 cursor-pointer transition-all hover:shadow-sm ${isDone ? 'completed' : ''}`;
+        div.onclick = () => {
+          completedTasks[`${project.id}-${i}`] = !completedTasks[`${project.id}-${i}`];
+          saveProgress();
+          renderAll();
+        };
+        div.innerHTML = `
+          <i class="lucide-${isDone ? 'check-circle' : 'circle'} w-5 h-5 mt-1 ${isDone ? 'text-purple-600' : 'text-gray-400'}"></i>
+          <span class="text-sm">${task}</span>
+        `;
+        taskList.appendChild(div);
+      });
+    }
+
+    function renderOverallProgress() {
+      const container = document.getElementById('overallProgress');
+      container.innerHTML = `
+        <h3 class="text-xl font-semibold text-gray-800 mb-4">Overall Roadmap Progress</h3>
+        <div class="grid md:grid-cols-3 gap-4">
+          ${projects.map(p => `
+            <div class="text-center p-4 bg-purple-100 rounded-lg hover:scale-105 transform transition-transform">
+              <div class="mb-2"><i class="lucide-${p.icon}"></i></div>
+              <div class="font-medium text-gray-800 text-sm">${p.title}</div>
+              <div class="text-2xl font-bold text-purple-600 mt-1">${getCompletionPercentage(p)}%</div>
+            </div>
+          `).join('')}
+        </div>
+      `;
+    }
+
+    function renderAll() {
+      renderButtons();
+      renderDetails();
+      renderOverallProgress();
+      lucide.createIcons(); // Render Lucide icons
+    }
+
+    renderAll();
+  </script>
+</body>
+</html>
